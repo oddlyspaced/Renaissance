@@ -1,8 +1,9 @@
-package com.oddlyspaced.renaissance
+package com.oddlyspaced.renaissance.activity
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.api.ApiClient
 import com.oddlyspaced.renaissance.api.ApiInterface
 import com.oddlyspaced.renaissance.modal.HomeResponse
