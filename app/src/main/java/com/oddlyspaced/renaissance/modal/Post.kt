@@ -63,5 +63,6 @@ data class Post(
     val tags: Any?,
     @SerializedName("shares")
     @Expose
-    val shares: Int
+    val shares: Int,
+    var category: String = ""
 )
