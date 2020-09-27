@@ -2,8 +2,10 @@ package com.oddlyspaced.renaissance.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.CategoryAdapter
@@ -54,6 +56,8 @@ class CategorySelectActivity : AppCompatActivity() {
                         }
                     }
                     adapter.notifyDataSetChanged()
+                    pbLoading.isVisible = false
+                    rvCategory.isVisible = true
                 }
             }
 
