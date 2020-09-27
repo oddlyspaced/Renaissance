@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.PostAdapter
@@ -65,6 +66,9 @@ class UserFeedActivity : AppCompatActivity() {
                     }
                 }
             }
+            if (current > posts.size - 3) {
+                cvLoading.isVisible = true
+            }
         }
     }
 
@@ -105,6 +109,9 @@ class UserFeedActivity : AppCompatActivity() {
         }
         postAdapter.notifyDataSetChanged()
         isLoading = false
+        pbLoading.isVisible = false
+        rvUserFeed.isVisible = true
+        cvLoading.isVisible = false
     }
 
 
