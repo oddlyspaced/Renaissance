@@ -3,7 +3,6 @@ package com.oddlyspaced.renaissance.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -81,7 +80,7 @@ class UserFeedActivity : AppCompatActivity() {
                         stagingPosts.add(it)
                     }
                     pages[categories.indexOf(cat)]++
-                    addPostsToAdapter(cat)
+                    addPostsToAdapter()
                 }
             }
 
@@ -92,7 +91,7 @@ class UserFeedActivity : AppCompatActivity() {
         })
     }
 
-    private fun addPostsToAdapter(category: Category) {
+    private fun addPostsToAdapter() {
         val c = pages[0]
         pages.forEach {
             if (c != it) {
