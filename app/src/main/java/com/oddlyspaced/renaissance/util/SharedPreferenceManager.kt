@@ -8,6 +8,7 @@ class SharedPreferenceManager(context: Context) {
 
     companion object {
         const val KEY_USER_CATEGORIES = "user_category"
+        const val KEY_USER_LANGUAGE = "user_lang"
     }
 
     private val sharedPreferencesKey = "shared_preference"
@@ -31,6 +32,15 @@ class SharedPreferenceManager(context: Context) {
             list = arrayListOf()
         }
         return list
+    }
+
+    fun saveLanguage(lang: Int) {
+        editor.putInt(KEY_USER_LANGUAGE, lang)
+        editor.apply()
+    }
+
+    fun getLanguage(): Int {
+        return sharedPreferences.getInt(KEY_USER_LANGUAGE, 0)
     }
 
 }
