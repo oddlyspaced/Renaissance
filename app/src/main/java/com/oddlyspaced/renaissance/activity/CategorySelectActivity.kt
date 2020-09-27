@@ -1,8 +1,6 @@
 package com.oddlyspaced.renaissance.activity
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -13,26 +11,51 @@ import com.oddlyspaced.renaissance.api.ApiClient
 import com.oddlyspaced.renaissance.api.ApiInterface
 import com.oddlyspaced.renaissance.modal.Category
 import com.oddlyspaced.renaissance.modal.CategoryOption
-import com.oddlyspaced.renaissance.modal.HomeResponse
+import com.oddlyspaced.renaissance.util.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_category_select.*
 import retrofit2.Call
 import retrofit2.Response
 
 class CategorySelectActivity : AppCompatActivity() {
 
+    private val categoryLimitMin = 3
+
     private val list = arrayListOf(arrayOf<CategoryOption>())
     private lateinit var adapter: CategoryAdapter
+    private val sharedPreferenceManager by lazy { SharedPreferenceManager(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_select)
 
+        setupUI()
+        fetchCategory()
+    }
+
+    private fun setupUI() {
         rvCategory.setHasFixedSize(true)
         rvCategory.layoutManager = LinearLayoutManager(applicationContext)
         adapter = CategoryAdapter(list)
         rvCategory.adapter = adapter
-
-        fetchCategory()
+        cvFinish.setOnClickListener {
+            val catCodes = arrayListOf<Int>()
+            list.forEach {
+                if (it[0].isSelected) {
+                    catCodes.add(it[0].category.id)
+                }
+                if (it.size > 1) {
+                    if (it[1].isSelected) {
+                        catCodes.add(it[1].category.id)
+                    }
+                }
+            }
+            if (catCodes.size < categoryLimitMin ) {
+                Toast.makeText(applicationContext, "Please select atleast $categoryLimitMin topics!", Toast.LENGTH_LONG).show()
+            }
+            else {
+                sharedPreferenceManager.saveUserCategories(SharedPreferenceManager.KEY_USER_CATEGORIES, catCodes)
+            }
+        }
     }
 
     private fun fetchCategory() {
@@ -44,10 +67,8 @@ class CategorySelectActivity : AppCompatActivity() {
             override fun onResponse(call: Call<List<Category>>, response: Response<List<Category>>) {
                 if (response.isSuccessful) {
                     val cats = response.body()!!
-                    Log.e("SIZE", cats.size.toString())
                     list.clear()
                     for (i in cats.indices step 2) {
-                        Log.e("AAA", i.toString())
                         if (i + 1 != cats.size) {
                             list.add(arrayOf(CategoryOption(cats[i]), CategoryOption(cats[i+1])))
                         }
