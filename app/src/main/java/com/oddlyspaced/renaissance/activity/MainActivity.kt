@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         rvGlobalNews.layoutManager = LinearLayoutManager(applicationContext)
         rvGlobalNews.setHasFixedSize(true)
-        postAdapter = PostAdapter(posts)
+        postAdapter = PostAdapter(posts, PostAdapter.TYPE_SINGLE)
         rvGlobalNews.adapter = postAdapter
 
         rvGlobalNews.setOnScrollChangeListener { _, _, _, _, _ ->
