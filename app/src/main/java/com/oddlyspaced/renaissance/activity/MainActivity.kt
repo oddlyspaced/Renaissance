@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 fetchHome()
             }
         }
-        startActivity(Intent(applicationContext, CategorySelectActivity::class.java))
+        startActivity(Intent(applicationContext, LanguageSelectActivity::class.java))
         //fetchHome()
     }
 
