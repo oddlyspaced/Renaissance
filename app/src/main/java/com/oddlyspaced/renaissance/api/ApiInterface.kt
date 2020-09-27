@@ -11,11 +11,6 @@ import retrofit2.http.Path
 
 interface ApiInterface {
 
-    /*
-     @GET("home/latest/{language}/" + Global.SECURE_KEY + "/" + Global.ITEM_PURCHASE_CODE + "/")
-    Call<HomeResponse> home(@Path("language") String language);
-     */
-
     @GET("home/latest/{language}/" + Global.SECURE_KEY + "/" + Global.ITEM_PURCHASE_CODE + "/")
     fun fetchLatestHome(@Path("language") language: String): Call<HomeResponse>
 
@@ -27,5 +22,11 @@ interface ApiInterface {
 
     @GET("language/all/" + Global.SECURE_KEY + "/" + Global.ITEM_PURCHASE_CODE + "/")
     fun languageAll(): Call<List<Language>>
+
+    @GET("post/by/category/{page}/created/{language}/{category}/" + Global.SECURE_KEY + "/" + Global.ITEM_PURCHASE_CODE + "/")
+    fun postsByCategory(@Path("page") page: Int, @Path("language") language: String, @Path("category") category: Int): Call<List<Post>>
+
+    @GET("category/by/post/{id}/" + Global.SECURE_KEY + "/" + Global.ITEM_PURCHASE_CODE + "/")
+    fun categoryOfPost(@Path("id") id: Int): Call<List<Category>>
 
 }
