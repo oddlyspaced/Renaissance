@@ -2,6 +2,7 @@ package com.oddlyspaced.renaissance.api
 
 import com.oddlyspaced.renaissance.global.Global
 import com.oddlyspaced.renaissance.modal.HomeResponse
+import com.oddlyspaced.renaissance.modal.Post
 import org.intellij.lang.annotations.Language
 import retrofit2.Call
 import retrofit2.http.GET
@@ -16,5 +17,8 @@ interface ApiInterface {
 
     @GET("home/latest/{language}/" + Global.SECURE_KEY + "/" + Global.ITEM_PURCHASE_CODE + "/")
     fun fetchLatestHome(@Path("language") language: String): Call<HomeResponse>
+
+    @GET("post/all/{page}/id/{language}/" + Global.SECURE_KEY + "/" + Global.ITEM_PURCHASE_CODE + "/")
+    fun postsByPage(@Path("page") page: Int, @Path("language") language: String): Call<List<Post>>
 
 }
