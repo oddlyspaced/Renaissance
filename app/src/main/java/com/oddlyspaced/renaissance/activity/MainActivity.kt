@@ -2,6 +2,7 @@ package com.oddlyspaced.renaissance.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,8 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     private val posts = arrayListOf<Post>()
+    private lateinit var postAdapter: PostAdapter
+    private var page = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +28,16 @@ class MainActivity : AppCompatActivity() {
 
         rvGlobalNews.layoutManager = LinearLayoutManager(applicationContext)
         rvGlobalNews.setHasFixedSize(true)
+        postAdapter = PostAdapter(posts)
+        rvGlobalNews.adapter = postAdapter
+
+        rvGlobalNews.setOnScrollChangeListener { _, _, _, _, _ ->
+            val current = (rvGlobalNews.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+            if (current > posts.size - 5) {
+                page++
+                fetchHome()
+            }
+        }
 
         fetchHome()
     }
@@ -34,21 +47,20 @@ class MainActivity : AppCompatActivity() {
         val language = "5"
         val client = ApiClient.getApiClient()
         val apiInterface = client.create(ApiInterface::class.java)
-        apiInterface.fetchLatestHome(language).enqueue(object : retrofit2.Callback<HomeResponse> {
-            override fun onResponse(call: Call<HomeResponse>, response: Response<HomeResponse>) {
+        apiInterface.postsByPage(page, language).enqueue(object : retrofit2.Callback<List<Post>> {
+            override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(applicationContext, "${response.body()?.posts?.size} ${response.body()?.slides?.size} ${response.body()?.categories?.size} ${response.body()?.questions?.size}", Toast.LENGTH_LONG).show()
-                    response.body()?.posts?.forEach {
+                    response.body()?.forEach {
                         posts.add(it)
                     }
-                    rvGlobalNews.adapter = PostAdapter(posts)
+
+                    postAdapter.notifyDataSetChanged()
                 }
             }
 
-            override fun onFailure(call: Call<HomeResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failed to fetch posts", Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
+                Toast.makeText(applicationContext, "Failed to load posts!", Toast.LENGTH_LONG).show()
             }
-
         })
     }
 }
