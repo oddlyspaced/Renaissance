@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         startActivity(Intent(applicationContext, LanguageSelectActivity::class.java))
+        finish()
         //fetchHome()
     }
 
