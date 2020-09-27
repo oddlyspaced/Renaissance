@@ -3,6 +3,7 @@ package com.oddlyspaced.renaissance.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oddlyspaced.renaissance.R
@@ -33,6 +34,8 @@ class UserFeedActivity : AppCompatActivity() {
 
     private val stagingPosts = arrayListOf<Post>()
 
+    private var isLoading = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_feed)
@@ -50,6 +53,18 @@ class UserFeedActivity : AppCompatActivity() {
 
         categories.forEach {
             fetchFeed(it)
+        }
+
+        rvUserFeed.setOnScrollChangeListener { _, _, _, _, _ ->
+            val current = (rvUserFeed.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+            if (current > posts.size - 10) {
+                if (!isLoading) {
+                    isLoading = true
+                    categories.forEach {
+                        fetchFeed(it)
+                    }
+                }
+            }
         }
     }
 
@@ -89,6 +104,7 @@ class UserFeedActivity : AppCompatActivity() {
             stagingPosts.remove(randomPost)
         }
         postAdapter.notifyDataSetChanged()
+        isLoading = false
     }
 
 
