@@ -22,7 +22,7 @@ class CategorySelectActivity : AppCompatActivity() {
 
     private val list = arrayListOf(arrayOf<CategoryOption>())
     private lateinit var adapter: CategoryAdapter
-    private val sharedPreferenceManager by lazy { SharedPreferenceManager(applicationContext) }2
+    private val sharedPreferenceManager by lazy { SharedPreferenceManager(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
