@@ -61,6 +61,7 @@ class CategorySelectActivity : AppCompatActivity() {
             else {
                 sharedPreferenceManager.saveUserCategories(categoriesToSave)
                 startActivity(Intent(applicationContext, UserFeedActivity::class.java))
+                finish()
             }
         }
     }
