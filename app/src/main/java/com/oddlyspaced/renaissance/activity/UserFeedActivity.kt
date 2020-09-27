@@ -9,6 +9,7 @@ import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.PostAdapter
 import com.oddlyspaced.renaissance.api.ApiClient
 import com.oddlyspaced.renaissance.api.ApiInterface
+import com.oddlyspaced.renaissance.modal.Category
 import com.oddlyspaced.renaissance.modal.Post
 import com.oddlyspaced.renaissance.util.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_user_feed.*
@@ -21,7 +22,7 @@ class UserFeedActivity : AppCompatActivity() {
 
     private val sharedPreferenceManager by lazy { SharedPreferenceManager(applicationContext) }
     private lateinit var language: String
-    private lateinit var categories: ArrayList<Int>
+    private lateinit var categories: ArrayList<Category>
 
     private val client = ApiClient.getApiClient()
     private val apiInterface = client.create(ApiInterface::class.java)
@@ -42,11 +43,9 @@ class UserFeedActivity : AppCompatActivity() {
             pages.add(0)
         }
 
-        Log.e(tag, "SIZE: ${categories.size}  ${pages.size}")
-
         rvUserFeed.layoutManager = LinearLayoutManager(applicationContext)
         rvUserFeed.setHasFixedSize(true)
-        postAdapter = PostAdapter(posts, PostAdapter.TYPE_SINGLE)
+        postAdapter = PostAdapter(posts, PostAdapter.TYPE_MIXED)
         rvUserFeed.adapter = postAdapter
 
         categories.forEach {
@@ -54,33 +53,16 @@ class UserFeedActivity : AppCompatActivity() {
         }
     }
 
-    private fun fetchFeed() {
-        apiInterface.postsByCategory(0, language, categories[0]).enqueue(object : retrofit2.Callback<List<Post>> {
+    private fun fetchFeed(cat: Category) {
+        apiInterface.postsByCategory(pages[categories.indexOf(cat)], language, cat.id).enqueue(object : retrofit2.Callback<List<Post>> {
             override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
                 if (response.isSuccessful) {
                     response.body()?.forEach {
-                        posts.add(it)
-                    }
-                    postAdapter.notifyDataSetChanged()
-                }
-            }
-
-            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failed to load posts!", Toast.LENGTH_LONG).show()
-            }
-
-        })
-    }
-
-    private fun fetchFeed(cat: Int) {
-        apiInterface.postsByCategory(pages[categories.indexOf(cat)], language, cat).enqueue(object : retrofit2.Callback<List<Post>> {
-            override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
-                if (response.isSuccessful) {
-                    response.body()?.forEach {
+                        it.category = cat.title
                         stagingPosts.add(it)
                     }
                     pages[categories.indexOf(cat)]++
-                    addPostsToAdapter()
+                    addPostsToAdapter(cat)
                 }
             }
 
@@ -91,7 +73,7 @@ class UserFeedActivity : AppCompatActivity() {
         })
     }
 
-    private fun addPostsToAdapter() {
+    private fun addPostsToAdapter(category: Category) {
         val c = pages[0]
         pages.forEach {
             if (c != it) {
