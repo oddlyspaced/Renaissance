@@ -40,10 +40,10 @@ class CategorySelectActivity : AppCompatActivity() {
         val language = "5"
         val client = ApiClient.getApiClient()
         val apiInterface = client.create(ApiInterface::class.java)
-        apiInterface.fetchLatestHome(language).enqueue(object : retrofit2.Callback<HomeResponse> {
-            override fun onResponse(call: Call<HomeResponse>, response: Response<HomeResponse>) {
+        apiInterface.allCategoriesByLanguage(language).enqueue(object : retrofit2.Callback<List<Category>> {
+            override fun onResponse(call: Call<List<Category>>, response: Response<List<Category>>) {
                 if (response.isSuccessful) {
-                    val cats = response.body()?.categories!!
+                    val cats = response.body()!!
                     Log.e("SIZE", cats.size.toString())
                     list.clear()
                     for (i in cats.indices step 2) {
@@ -61,7 +61,7 @@ class CategorySelectActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<HomeResponse>, t: Throwable) {
+            override fun onFailure(call: Call<List<Category>>, t: Throwable) {
                 Toast.makeText(applicationContext, "Unable to load", Toast.LENGTH_LONG).show()
             }
         })
