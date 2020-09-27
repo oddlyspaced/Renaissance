@@ -22,7 +22,7 @@ class CategorySelectActivity : AppCompatActivity() {
 
     private val list = arrayListOf(arrayOf<CategoryOption>())
     private lateinit var adapter: CategoryAdapter
-    private val sharedPreferenceManager by lazy { SharedPreferenceManager(applicationContext) }
+    private val sharedPreferenceManager by lazy { SharedPreferenceManager(applicationContext) }2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +59,7 @@ class CategorySelectActivity : AppCompatActivity() {
     }
 
     private fun fetchCategory() {
-        // 5 is english, 6 is hindi
-        val language = "5"
+        val language = sharedPreferenceManager.getLanguage().toString()
         val client = ApiClient.getApiClient()
         val apiInterface = client.create(ApiInterface::class.java)
         apiInterface.allCategoriesByLanguage(language).enqueue(object : retrofit2.Callback<List<Category>> {
