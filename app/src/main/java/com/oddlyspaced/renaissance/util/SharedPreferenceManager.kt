@@ -3,6 +3,7 @@ package com.oddlyspaced.renaissance.util
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.oddlyspaced.renaissance.modal.Category
 
 class SharedPreferenceManager(context: Context) {
 
@@ -17,17 +18,17 @@ class SharedPreferenceManager(context: Context) {
     private val gson = Gson()
 
     // saves a list object to sharedpreferences using gson library
-    fun saveUserCategories(list: ArrayList<Int>) {
+    fun saveUserCategories(list: ArrayList<Category>) {
         val listJson = gson.toJson(list)
         editor.putString(KEY_USER_CATEGORIES, listJson)
         editor.apply()
     }
 
     // loads a particular list from sharedpreference
-    fun loadUserCategories(): ArrayList<Int> {
+    fun loadUserCategories(): ArrayList<Category> {
         val json = sharedPreferences.getString(KEY_USER_CATEGORIES, null)
-        val type = object: TypeToken<ArrayList<Int>>(){}.type
-        var list: ArrayList<Int>? = gson.fromJson(json, type)
+        val type = object: TypeToken<ArrayList<Category>>(){}.type
+        var list: ArrayList<Category>? = gson.fromJson(json, type)
         if (list == null) {
             list = arrayListOf()
         }
