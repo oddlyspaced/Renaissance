@@ -26,6 +26,7 @@ class LanguageSelectActivity : AppCompatActivity() {
     private val list = arrayListOf(arrayOf<LanguageOption>())
     private lateinit var adapter: LanguageAdapter
     private val sharedPreferenceManager by lazy { SharedPreferenceManager(applicationContext) }
+    private var isLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +42,10 @@ class LanguageSelectActivity : AppCompatActivity() {
         adapter = LanguageAdapter(list)
         rvLanguage.adapter = adapter
         cvFinish.setOnClickListener {
+            if (!isLoaded) {
+                Toast.makeText(applicationContext, "Please wait for loading to finish!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             var langCode = -1
             list.forEach {
                 if (it[0].isSelected) {
@@ -82,6 +87,7 @@ class LanguageSelectActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                     pbLoading.isVisible = false
                     rvLanguage.isVisible = true
+                    isLoaded = true
                 }
             }
 
