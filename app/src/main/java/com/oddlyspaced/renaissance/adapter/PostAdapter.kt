@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.item_post.view.imgPost
 import kotlinx.android.synthetic.main.item_post.view.txPostTime
 import kotlinx.android.synthetic.main.item_post.view.txPostTitle
 import kotlinx.android.synthetic.main.item_post_author.view.*
-import java.lang.Exception
 
 class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -34,6 +33,7 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int):
         val title: TextView = itemView.txPostTitle
         val time: TextView = itemView.txPostTime
         val image: ImageView = itemView.imgPost
+        val category: TextView = itemView.txPostCategory
     }
 
 
@@ -61,9 +61,18 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int):
                 holder.author.text = authorText
             }
             TYPE_MIXED -> {
-
+                val holder = hol as ViewHolderMixed
+                val item = list[position]
+                holder.title.text = item.title
+                holder.time.text = item.created
+                Picasso.get().load(item.thumbnail).into(holder.image)
+                holder.category.text = item.category
             }
         }
+    }
+
+    fun getEmoji(unicode: Int): String {
+        return String(Character.toChars(unicode))
     }
 
 }
