@@ -44,22 +44,22 @@ class CategorySelectActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Please wait for loading to finish!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val catCodes = arrayListOf<Int>()
+            val categoriesToSave = arrayListOf<Category>()
             list.forEach {
                 if (it[0].isSelected) {
-                    catCodes.add(it[0].category.id)
+                    categoriesToSave.add(it[0].category)
                 }
                 if (it.size > 1) {
                     if (it[1].isSelected) {
-                        catCodes.add(it[1].category.id)
+                        categoriesToSave.add(it[1].category)
                     }
                 }
             }
-            if (catCodes.size < categoryLimitMin ) {
+            if (categoriesToSave.size < categoryLimitMin ) {
                 Toast.makeText(applicationContext, "Please select atleast $categoryLimitMin topics!", Toast.LENGTH_LONG).show()
             }
             else {
-                sharedPreferenceManager.saveUserCategories(catCodes)
+                sharedPreferenceManager.saveUserCategories(categoriesToSave)
                 startActivity(Intent(applicationContext, UserFeedActivity::class.java))
             }
         }
