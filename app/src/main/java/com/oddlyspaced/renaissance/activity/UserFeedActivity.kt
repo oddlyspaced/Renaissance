@@ -1,10 +1,17 @@
 package com.oddlyspaced.renaissance.activity
 
+import android.content.Context
+import android.content.Intent
+import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.PostAdapter
@@ -14,6 +21,7 @@ import com.oddlyspaced.renaissance.modal.Category
 import com.oddlyspaced.renaissance.modal.Post
 import com.oddlyspaced.renaissance.util.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_user_feed.*
+import kotlinx.android.synthetic.main.layout_bottom_bar.view.*
 import retrofit2.Call
 import retrofit2.Response
 
@@ -69,6 +77,8 @@ class UserFeedActivity : AppCompatActivity() {
                 cvLoading.isVisible = true
             }
         }
+
+        initBottomBar()
     }
 
     private fun fetchFeed(cat: Category) {
@@ -111,6 +121,20 @@ class UserFeedActivity : AppCompatActivity() {
         pbLoading.isVisible = false
         rvUserFeed.isVisible = true
         cvLoading.isVisible = false
+    }
+
+    private fun initBottomBar() {
+        include.cvHome.setCardBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorCardLight))
+        include.imgHome.setTint(applicationContext, R.color.colorIcon)
+        include.cvGlobal.setOnClickListener {
+            startActivity(Intent(applicationContext, GlobalFeedActivity::class.java))
+        }
+    }
+
+    private fun ImageView.setTint(context: Context, @ColorRes colorId: Int) {
+        val color = ContextCompat.getColor(context, colorId)
+        val colorStateList = ColorStateList.valueOf(color)
+        ImageViewCompat.setImageTintList(this, colorStateList)
     }
 
 
