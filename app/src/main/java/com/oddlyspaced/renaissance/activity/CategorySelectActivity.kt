@@ -23,6 +23,7 @@ class CategorySelectActivity : AppCompatActivity() {
     private val list = arrayListOf(arrayOf<CategoryOption>())
     private lateinit var adapter: CategoryAdapter
     private val sharedPreferenceManager by lazy { SharedPreferenceManager(applicationContext) }
+    private var isLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +39,10 @@ class CategorySelectActivity : AppCompatActivity() {
         adapter = CategoryAdapter(list)
         rvCategory.adapter = adapter
         cvFinish.setOnClickListener {
+            if (!isLoaded) {
+                Toast.makeText(applicationContext, "Please wait for loading to finish!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val catCodes = arrayListOf<Int>()
             list.forEach {
                 if (it[0].isSelected) {
@@ -78,6 +83,7 @@ class CategorySelectActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                     pbLoading.isVisible = false
                     rvCategory.isVisible = true
+                    isLoaded = true
                 }
             }
 
