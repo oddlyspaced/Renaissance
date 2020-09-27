@@ -17,15 +17,15 @@ class SharedPreferenceManager(context: Context) {
     private val gson = Gson()
 
     // saves a list object to sharedpreferences using gson library
-    fun saveUserCategories(key: String, list: ArrayList<Int>) {
+    fun saveUserCategories(list: ArrayList<Int>) {
         val listJson = gson.toJson(list)
-        editor.putString(key, listJson)
+        editor.putString(KEY_USER_CATEGORIES, listJson)
         editor.apply()
     }
 
     // loads a particular list from sharedpreference
-    fun loadUserCategories(key: String): ArrayList<Int> {
-        val json = sharedPreferences.getString(key, null)
+    fun loadUserCategories(): ArrayList<Int> {
+        val json = sharedPreferences.getString(KEY_USER_CATEGORIES, null)
         val type = object: TypeToken<ArrayList<Int>>(){}.type
         var list: ArrayList<Int>? = gson.fromJson(json, type)
         if (list == null) {
