@@ -1,5 +1,6 @@
 package com.oddlyspaced.renaissance.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +19,7 @@ import retrofit2.Response
 
 class CategorySelectActivity : AppCompatActivity() {
 
-    private val categoryLimitMin = 3
+    private val categoryLimitMin = 1
 
     private val list = arrayListOf(arrayOf<CategoryOption>())
     private lateinit var adapter: CategoryAdapter
@@ -58,7 +59,8 @@ class CategorySelectActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Please select atleast $categoryLimitMin topics!", Toast.LENGTH_LONG).show()
             }
             else {
-                sharedPreferenceManager.saveUserCategories(SharedPreferenceManager.KEY_USER_CATEGORIES, catCodes)
+                sharedPreferenceManager.saveUserCategories(catCodes)
+                startActivity(Intent(applicationContext, UserFeedActivity::class.java))
             }
         }
     }
