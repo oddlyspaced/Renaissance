@@ -64,5 +64,5 @@ data class Post(
     @SerializedName("shares")
     @Expose
     val shares: Int,
-    var category: String = ""
+    var category: String = "",
 )
