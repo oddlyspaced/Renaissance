@@ -3,8 +3,8 @@ package com.oddlyspaced.renaissance.api
 import com.oddlyspaced.renaissance.global.Global
 import com.oddlyspaced.renaissance.modal.Category
 import com.oddlyspaced.renaissance.modal.HomeResponse
+import com.oddlyspaced.renaissance.modal.Language
 import com.oddlyspaced.renaissance.modal.Post
-import org.intellij.lang.annotations.Language
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -24,5 +24,8 @@ interface ApiInterface {
 
     @GET("category/all/{language}/" + Global.SECURE_KEY + "/" + Global.ITEM_PURCHASE_CODE + "/")
     fun allCategoriesByLanguage(@Path("language") language: String): Call<List<Category>>
+
+    @GET("language/all/" + Global.SECURE_KEY + "/" + Global.ITEM_PURCHASE_CODE + "/")
+    fun languageAll(): Call<List<Language>>
 
 }
