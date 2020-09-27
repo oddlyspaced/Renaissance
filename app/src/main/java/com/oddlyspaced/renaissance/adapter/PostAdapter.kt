@@ -57,7 +57,8 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int):
                 holder.title.text = item.title
                 holder.time.text = item.created
                 Picasso.get().load(item.thumbnail).into(holder.image)
-                holder.author.text = item.user
+                val authorText = "By ${item.user}"
+                holder.author.text = authorText
             }
             TYPE_MIXED -> {
 
