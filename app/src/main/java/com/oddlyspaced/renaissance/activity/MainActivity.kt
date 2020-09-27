@@ -1,5 +1,6 @@
 package com.oddlyspaced.renaissance.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -38,8 +39,8 @@ class MainActivity : AppCompatActivity() {
                 fetchHome()
             }
         }
-
-        fetchHome()
+        startActivity(Intent(applicationContext, CategorySelectActivity::class.java))
+        //fetchHome()
     }
 
     private fun fetchHome() {
