@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.modal.Post
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_post.view.*
 import kotlinx.android.synthetic.main.item_post.view.imgPost
 import kotlinx.android.synthetic.main.item_post.view.txPostTime
@@ -40,7 +40,7 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int):
         val item = list[position]
         holder.title.text = item.title
         holder.time.text = item.created
-        Picasso.get().load(item.thumbnail).into(holder.image)
+        Glide.with(holder.itemView.context).load(item.thumbnail).into(holder.image)
         val authorText = "By ${item.user}"
         when (feedType) {
             TYPE_SINGLE -> {
