@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.oddlyspaced.renaissance.R
@@ -16,7 +18,6 @@ import kotlinx.android.synthetic.main.item_post.view.txPostExtra
 import kotlinx.android.synthetic.main.item_post.view.txPostTime
 import kotlinx.android.synthetic.main.item_post.view.txPostTitle
 import kotlinx.android.synthetic.main.layout_post_expanded.view.*
-import org.xmlpull.v1.XmlPullParser
 
 class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -42,6 +43,8 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int):
         val image: ImageView = itemView.imgPost
         val extra: TextView = itemView.txPostExtra
         val content: TextView = itemView.txPostContent
+        val cardSource: CardView = itemView.cvPostSource
+        val sourceText: TextView = itemView.txPostSource
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -90,6 +93,10 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int):
                     }
                 }
                 holder.content.text = Html.fromHtml(item.content)
+                holder.sourceText.text = item.anchor_text
+                holder.cardSource.setOnClickListener {
+                    Toast.makeText(hol.itemView.context, "Load webview here", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
