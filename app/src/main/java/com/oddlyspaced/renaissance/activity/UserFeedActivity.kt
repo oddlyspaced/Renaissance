@@ -105,15 +105,14 @@ class UserFeedActivity : AppCompatActivity() {
         val c = pages[0]
         pages.forEach {
             if (c != it) {
-                Log.e(tag, "OK")
                 return
             }
         }
-        Log.e(tag, "HMMMM")
         stagingPosts.shuffle()
         stagingPosts.sortBy {
             it.created
         }
+        // TODO: Check for posts with same title and remove them
         posts.addAll(stagingPosts)
         stagingPosts.clear()
         postAdapter.notifyDataSetChanged()
