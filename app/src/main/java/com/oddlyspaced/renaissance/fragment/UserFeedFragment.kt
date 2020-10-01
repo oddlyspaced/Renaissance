@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.SnapHelper
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.PostAdapter
 import com.oddlyspaced.renaissance.api.ApiClient
@@ -54,6 +56,11 @@ class UserFeedFragment: Fragment() {
         rvFeed.layoutManager = LinearLayoutManager(context!!)
         rvFeed.setHasFixedSize(true)
         postAdapter = PostAdapter(posts, PostAdapter.TYPE_MIXED)
+        if (sharedPreferenceManager.getLayoutStyle() == PostAdapter.LAYOUT_EXPANDED) {
+            val snapHelper = PagerSnapHelper()
+            snapHelper.attachToRecyclerView(rvFeed)
+        }
+
         rvFeed.adapter = postAdapter
 
         categories.forEach {
