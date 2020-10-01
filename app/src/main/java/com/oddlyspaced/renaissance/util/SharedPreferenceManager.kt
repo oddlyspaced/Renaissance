@@ -3,6 +3,7 @@ package com.oddlyspaced.renaissance.util
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.oddlyspaced.renaissance.adapter.PostAdapter
 import com.oddlyspaced.renaissance.modal.Category
 
 class SharedPreferenceManager(context: Context) {
@@ -10,6 +11,7 @@ class SharedPreferenceManager(context: Context) {
     companion object {
         const val KEY_USER_CATEGORIES = "user_category"
         const val KEY_USER_LANGUAGE = "user_lang"
+        const val KEY_POST_LAYOUT = "layout"
     }
 
     private val sharedPreferencesKey = "shared_preference"
@@ -42,6 +44,15 @@ class SharedPreferenceManager(context: Context) {
 
     fun getLanguage(): Int {
         return sharedPreferences.getInt(KEY_USER_LANGUAGE, 0)
+    }
+
+    fun saveLayoutStyle(layout: Int) {
+        editor.putInt(KEY_POST_LAYOUT, layout)
+        editor.apply()
+    }
+
+    fun getLayoutStyle(): Int {
+        return sharedPreferences.getInt(KEY_POST_LAYOUT, PostAdapter.LAYOUT_EXPANDED)
     }
 
 }
