@@ -12,4 +12,4 @@
 /captures
 .externalNativeBuild
 .cxx
-app/src/main/java/com/oddlyspaced/renaissance/global/Global.kt
+/app/src/main/java/com/oddlyspaced/renaissance/global/Global.kt
