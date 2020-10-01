@@ -64,9 +64,6 @@ class GlobalFeedFragment: Fragment() {
     }
 
     private fun fetchHome() {
-        // 5 is english, 6 is hindi
-        val client = ApiClient.getApiClient()
-        val apiInterface = client.create(ApiInterface::class.java)
         apiInterface.postsByPage(page, language).enqueue(object : retrofit2.Callback<List<Post>> {
             override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
                 if (response.isSuccessful) {
