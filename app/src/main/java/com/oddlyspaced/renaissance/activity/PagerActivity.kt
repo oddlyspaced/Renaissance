@@ -32,12 +32,13 @@ class PagerActivity : AppCompatActivity() {
         listCardBar = arrayListOf(include.cvHome, include.cvGlobal, include.cvQuickBits)
         listIconBar = arrayListOf(include.imgHome, include.imgGlobal, include.imgQuickBits)
 
-        val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), QuickBitsFeedFragment(), EmptyFragment())
-        val titles = arrayOf("For You", "Global", "Quick Bits", "Empty")
+        val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), QuickBitsFeedFragment())
+        val titles = arrayOf("For You", "Global", "Quick Bits")
         val adapter = PagerAdapter(this, list)
         viewPagerMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 txPageTitle.text = titles[position]
+                activateBottomBarItem(position)
             }
         })
         viewPagerMain.adapter = adapter
@@ -47,14 +48,10 @@ class PagerActivity : AppCompatActivity() {
     private fun setupBottomBar() {
         for (i in 0 until listCardBar.size) {
             listCardBar[i].setOnClickListener {
-                viewPagerMain.setCurrentItem(i, true)
-                resetBottomBarColor()
-                listCardBar[i].setCardBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorCardLight))
-                listIconBar[i].setTint(R.color.colorText)
+                activateBottomBarItem(i);
             }
         }
-        listCardBar[0].setCardBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorCardLight))
-        listIconBar[0].setTint(R.color.colorText)
+        activateBottomBarItem(0)
     }
 
     private fun resetBottomBarColor() {
@@ -62,6 +59,13 @@ class PagerActivity : AppCompatActivity() {
             listCardBar[i].setCardBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
             listIconBar[i].setTint(R.color.colorTextLight)
         }
+    }
+
+    private fun activateBottomBarItem(index: Int) {
+        viewPagerMain.setCurrentItem(index, true)
+        resetBottomBarColor()
+        listCardBar[index].setCardBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorCardLight))
+        listIconBar[index].setTint(R.color.colorText)
     }
 
     private fun ImageView.setTint(@ColorRes colorRes: Int) {
