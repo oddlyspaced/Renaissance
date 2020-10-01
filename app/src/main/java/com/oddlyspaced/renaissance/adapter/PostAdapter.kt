@@ -13,66 +13,43 @@ import kotlinx.android.synthetic.main.item_post.view.*
 import kotlinx.android.synthetic.main.item_post.view.imgPost
 import kotlinx.android.synthetic.main.item_post.view.txPostTime
 import kotlinx.android.synthetic.main.item_post.view.txPostTitle
-import kotlinx.android.synthetic.main.item_post_author.view.*
 
-class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int): RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
     companion object {
         const val TYPE_MIXED = 1
         const val TYPE_SINGLE = 2
     }
 
-    class ViewHolderSingle(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.txPostTitle
         val time: TextView = itemView.txPostTime
         val image: ImageView = itemView.imgPost
-        val author: TextView = itemView.txPostAuthor
+        val extra: TextView = itemView.txPostExtra
     }
 
-    class ViewHolderMixed(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.txPostTitle
-        val time: TextView = itemView.txPostTime
-        val image: ImageView = itemView.imgPost
-        val category: TextView = itemView.txPostCategory
-    }
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(feedType) {
-            TYPE_SINGLE -> ViewHolderSingle(LayoutInflater.from(parent.context).inflate(R.layout.item_post_author, parent, false))
-            TYPE_MIXED -> ViewHolderMixed(LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false))
-            else -> throw Exception("Unknown feed type provided!")
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false))
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
 
-    override fun onBindViewHolder(hol: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = list[position]
+        holder.title.text = item.title
+        holder.time.text = item.created
+        Picasso.get().load(item.thumbnail).into(holder.image)
+        val authorText = "By ${item.user}"
         when (feedType) {
             TYPE_SINGLE -> {
-                val holder = hol as ViewHolderSingle
-                val item = list[position]
-                holder.title.text = item.title
-                holder.time.text = item.created
-                Picasso.get().load(item.thumbnail).into(holder.image)
-                val authorText = "By ${item.user}"
-                holder.author.text = authorText
+                holder.extra.text = authorText
             }
             TYPE_MIXED -> {
-                val holder = hol as ViewHolderMixed
-                val item = list[position]
-                holder.title.text = item.title
-                holder.time.text = item.created
-                Picasso.get().load(item.thumbnail).into(holder.image)
-                holder.category.text = item.category
+                holder.extra.text = item.category
             }
         }
-    }
-
-    fun getEmoji(unicode: Int): String {
-        return String(Character.toChars(unicode))
     }
 
 }

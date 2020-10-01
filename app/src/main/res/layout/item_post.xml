@@ -6,14 +6,17 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/txPostCategory"
-        android:layout_width="wrap_content"
+        android:id="@+id/txPostExtra"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/semibold"
-        android:text="Gaming"
+        android:maxLines="1"
+        android:text="Akshay Kr. Jha"
         android:textColor="@color/colorText"
+        app:layout_constraintEnd_toStartOf="@+id/txPostTime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,9 +28,9 @@
         android:fontFamily="@font/medium"
         android:text="2 minutes ago"
         android:textColor="@color/colorTextLight"
-        app:layout_constraintBottom_toBottomOf="@+id/txPostCategory"
+        app:layout_constraintBottom_toBottomOf="@+id/txPostExtra"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txPostCategory" />
+        app:layout_constraintTop_toTopOf="@+id/txPostExtra" />
 
     <TextView
         android:id="@+id/txPostTitle"
@@ -58,7 +61,7 @@
         app:layout_constraintDimensionRatio="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txPostCategory">
+        app:layout_constraintTop_toBottomOf="@+id/txPostExtra">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
