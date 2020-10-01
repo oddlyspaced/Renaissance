@@ -1,9 +1,12 @@
-package com.oddlyspaced.renaissance.activity
+package com.oddlyspaced.renaissance.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.PostAdapter
@@ -11,15 +14,15 @@ import com.oddlyspaced.renaissance.api.ApiClient
 import com.oddlyspaced.renaissance.api.ApiInterface
 import com.oddlyspaced.renaissance.modal.Post
 import com.oddlyspaced.renaissance.util.SharedPreferenceManager
-import kotlinx.android.synthetic.main.activity_global_feed.*
+import kotlinx.android.synthetic.main.fragment_feed.*
 import retrofit2.Call
 import retrofit2.Response
 
-class GlobalFeedActivity : AppCompatActivity() {
+class GlobalFeedFragment: Fragment() {
 
-    private val tag = "GlobalFeedActivity"
+    private val TAG = "GlobalFeedActivity"
 
-    private val sharedPreferenceManager by lazy { SharedPreferenceManager(applicationContext) }
+    private val sharedPreferenceManager by lazy { SharedPreferenceManager(context!!) }
     private lateinit var language: String
 
     private val client = ApiClient.getApiClient()
@@ -31,19 +34,21 @@ class GlobalFeedActivity : AppCompatActivity() {
 
     private var isLoading = true
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_global_feed)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_feed, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         language = sharedPreferenceManager.getLanguage().toString()
 
-        rvGlobal.layoutManager = LinearLayoutManager(applicationContext)
-        rvGlobal.setHasFixedSize(true)
+        rvFeed.layoutManager = LinearLayoutManager(context)
+        rvFeed.setHasFixedSize(true)
         postAdapter = PostAdapter(posts, PostAdapter.TYPE_SINGLE)
-        rvGlobal.adapter = postAdapter
+        rvFeed.adapter = postAdapter
 
-        rvGlobal.setOnScrollChangeListener { _, _, _, _, _ ->
-            val current = (rvGlobal.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+        rvFeed.setOnScrollChangeListener { _, _, _, _, _ ->
+            val current = (rvFeed.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
             if (current > posts.size - 10) {
                 if (!isLoading) {
                     isLoading = true
@@ -71,13 +76,13 @@ class GlobalFeedActivity : AppCompatActivity() {
                     page++
                     postAdapter.notifyDataSetChanged()
                     pbLoading.isVisible = false
-                    rvGlobal.isVisible = true
+                    rvFeed.isVisible = true
                     cvLoading.isVisible = false
                 }
             }
 
             override fun onFailure(call: Call<List<Post>>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failed to load posts!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Failed to load posts!", Toast.LENGTH_LONG).show()
             }
         })
     }

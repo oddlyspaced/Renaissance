@@ -8,6 +8,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.PagerAdapter
 import com.oddlyspaced.renaissance.fragment.EmptyFragment
+import com.oddlyspaced.renaissance.fragment.GlobalFeedFragment
 import com.oddlyspaced.renaissance.fragment.UserFeedFragment
 import kotlinx.android.synthetic.main.activity_pager.*
 import kotlinx.android.synthetic.main.layout_bottom_bar.*
@@ -17,8 +18,8 @@ class PagerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pager)
 
-        val list = arrayListOf(UserFeedFragment(), EmptyFragment())
-        val titles = arrayOf("For You", "Global")
+        val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), EmptyFragment())
+        val titles = arrayOf("For You", "Global", "Empty")
         val adapter = PagerAdapter(this, list)
         viewPagerMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
