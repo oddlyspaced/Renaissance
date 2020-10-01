@@ -1,17 +1,12 @@
-package com.oddlyspaced.renaissance.activity
+package com.oddlyspaced.renaissance.fragment
 
-import android.content.Context
-import android.content.Intent
-import android.content.res.ColorStateList
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.ImageViewCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.PostAdapter
@@ -21,15 +16,14 @@ import com.oddlyspaced.renaissance.modal.Category
 import com.oddlyspaced.renaissance.modal.Post
 import com.oddlyspaced.renaissance.util.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_user_feed.*
-import kotlinx.android.synthetic.main.layout_bottom_bar.view.*
 import retrofit2.Call
 import retrofit2.Response
 
-class UserFeedActivity : AppCompatActivity() {
+class UserFeedFragment: Fragment() {
 
-    private val tag = "UserFeedActivity"
+    private val TAG = "UserFeedFragment"
 
-    private val sharedPreferenceManager by lazy { SharedPreferenceManager(applicationContext) }
+    private val sharedPreferenceManager by lazy { SharedPreferenceManager(context!!) }
     private lateinit var language: String
     private lateinit var categories: ArrayList<Category>
 
@@ -44,9 +38,12 @@ class UserFeedActivity : AppCompatActivity() {
 
     private var isLoading = true
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_user_feed)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_user_feed, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         language = sharedPreferenceManager.getLanguage().toString()
         categories = sharedPreferenceManager.loadUserCategories()
@@ -54,7 +51,7 @@ class UserFeedActivity : AppCompatActivity() {
             pages.add(0)
         }
 
-        rvUserFeed.layoutManager = LinearLayoutManager(applicationContext)
+        rvUserFeed.layoutManager = LinearLayoutManager(context!!)
         rvUserFeed.setHasFixedSize(true)
         postAdapter = PostAdapter(posts, PostAdapter.TYPE_MIXED)
         rvUserFeed.adapter = postAdapter
@@ -77,8 +74,6 @@ class UserFeedActivity : AppCompatActivity() {
                 cvLoading.isVisible = true
             }
         }
-
-        initBottomBar()
     }
 
     private fun fetchFeed(cat: Category) {
@@ -95,7 +90,7 @@ class UserFeedActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<List<Post>>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failed to load posts!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Failed to load posts!", Toast.LENGTH_LONG).show()
             }
 
         })
@@ -121,20 +116,5 @@ class UserFeedActivity : AppCompatActivity() {
         rvUserFeed.isVisible = true
         cvLoading.isVisible = false
     }
-
-    private fun initBottomBar() {
-        include.cvHome.setCardBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorCardLight))
-        include.imgHome.setTint(applicationContext, R.color.colorIcon)
-        include.cvGlobal.setOnClickListener {
-            startActivity(Intent(applicationContext, GlobalFeedActivity::class.java))
-        }
-    }
-
-    private fun ImageView.setTint(context: Context, @ColorRes colorId: Int) {
-        val color = ContextCompat.getColor(context, colorId)
-        val colorStateList = ColorStateList.valueOf(color)
-        ImageViewCompat.setImageTintList(this, colorStateList)
-    }
-
 
 }

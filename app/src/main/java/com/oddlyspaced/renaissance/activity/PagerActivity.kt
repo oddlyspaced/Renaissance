@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.PagerAdapter
 import com.oddlyspaced.renaissance.fragment.EmptyFragment
+import com.oddlyspaced.renaissance.fragment.UserFeedFragment
 import kotlinx.android.synthetic.main.activity_pager.*
 
 class PagerActivity : AppCompatActivity() {
@@ -13,7 +14,7 @@ class PagerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pager)
 
-        val list = arrayListOf<Fragment>(EmptyFragment(), EmptyFragment())
+        val list = arrayListOf<Fragment>(UserFeedFragment(), EmptyFragment())
         val adapter = PagerAdapter(this, list)
         viewPagerMain.adapter = adapter
     }
