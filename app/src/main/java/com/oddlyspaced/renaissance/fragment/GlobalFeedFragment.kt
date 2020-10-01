@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.PostAdapter
 import com.oddlyspaced.renaissance.api.ApiClient
@@ -46,6 +47,11 @@ class GlobalFeedFragment: Fragment() {
         rvFeed.setHasFixedSize(true)
         postAdapter = PostAdapter(posts, PostAdapter.TYPE_SINGLE)
         rvFeed.adapter = postAdapter
+
+        if (sharedPreferenceManager.getLayoutStyle() == PostAdapter.LAYOUT_EXPANDED) {
+            val snapHelper = PagerSnapHelper()
+            snapHelper.attachToRecyclerView(rvFeed)
+        }
 
         rvFeed.setOnScrollChangeListener { _, _, _, _, _ ->
             val current = (rvFeed.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
