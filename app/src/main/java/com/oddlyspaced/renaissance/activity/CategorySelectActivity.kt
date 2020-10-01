@@ -60,7 +60,7 @@ class CategorySelectActivity : AppCompatActivity() {
             }
             else {
                 sharedPreferenceManager.saveUserCategories(categoriesToSave)
-                startActivity(Intent(applicationContext, UserFeedActivity::class.java))
+                startActivity(Intent(applicationContext, PagerActivity::class.java))
                 finish()
             }
         }
