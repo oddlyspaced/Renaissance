@@ -19,13 +19,15 @@ import kotlinx.android.synthetic.main.item_post.view.txPostTime
 import kotlinx.android.synthetic.main.item_post.view.txPostTitle
 import kotlinx.android.synthetic.main.layout_post_expanded.view.*
 
-class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val TYPE_MIXED = 1
         const val TYPE_SINGLE = 2
-        const val LAYOUT_COMPACT = 3
-        const val LAYOUT_EXPANDED = 4
+        const val TYPE_QUICK = 3
+        const val LAYOUT_COMPACT = 11
+        const val LAYOUT_EXPANDED = 12
     }
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
@@ -47,12 +49,23 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int):
         val sourceText: TextView = itemView.txPostSource
     }
 
+    class ViewHolderQuick(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title: TextView = itemView.txPostTitle
+        val time: TextView = itemView.txPostTime
+        val image: ImageView = itemView.imgPost
+        val extra: TextView = itemView.txPostExtra
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         sharedPreferenceManager = SharedPreferenceManager(parent.context)
-        return when (sharedPreferenceManager.getLayoutStyle()) {
-            LAYOUT_COMPACT -> ViewHolderCompact(LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false))
-            LAYOUT_EXPANDED -> ViewHolderExpanded(LayoutInflater.from(parent.context).inflate(R.layout.layout_post_expanded, parent, false))
-            else -> throw Exception("Unknown type of post layout!")
+        return when (feedType) {
+            TYPE_QUICK -> ViewHolderQuick(LayoutInflater.from(parent.context).inflate(R.layout.item_quick_bit, parent, false))
+            else -> return when (sharedPreferenceManager.getLayoutStyle()) {
+                LAYOUT_COMPACT -> ViewHolderCompact(LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false))
+                LAYOUT_EXPANDED -> ViewHolderExpanded(LayoutInflater.from(parent.context).inflate(R.layout.layout_post_expanded, parent, false))
+                else -> throw Exception("Unknown type of post layout!")
+            }
+
         }
     }
 
@@ -62,6 +75,17 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int):
 
     override fun onBindViewHolder(hol: RecyclerView.ViewHolder, position: Int) {
         val item = list[position]
+        when (feedType) {
+            TYPE_QUICK -> {
+                val holder = hol as ViewHolderQuick
+                holder.title.text = item.title
+                holder.time.text = item.created
+                Glide.with(holder.itemView.context).load(item.thumbnail).into(holder.image)
+                val authorText = "By ${item.user}"
+                holder.extra.text = authorText
+                return
+            }
+        }
         when (sharedPreferenceManager.getLayoutStyle()) {
             LAYOUT_COMPACT -> {
                 val holder = hol as ViewHolderCompact

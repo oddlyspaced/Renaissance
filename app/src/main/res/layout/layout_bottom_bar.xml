@@ -61,7 +61,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="@+id/cvUser"
         app:layout_constraintEnd_toStartOf="@+id/cvUser"
-        app:layout_constraintStart_toEndOf="@+id/cvSearch"
+        app:layout_constraintStart_toEndOf="@+id/cvQuickBits"
         app:layout_constraintTop_toTopOf="@+id/cvUser">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -86,7 +86,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvSearch"
+        android:id="@+id/cvQuickBits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -104,18 +104,19 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/imgQuickBits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                app:tint="@color/colorTextLight"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_search" />
+                app:srcCompat="@drawable/ic_zap"
+                app:tint="@color/colorTextLight" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -128,10 +129,10 @@
         app:cardCornerRadius="999dp"
         app:cardElevation="0dp"
         android:foreground="?android:attr/selectableItemBackground"
-        app:layout_constraintBottom_toBottomOf="@+id/cvSearch"
-        app:layout_constraintEnd_toStartOf="@+id/cvSearch"
+        app:layout_constraintBottom_toBottomOf="@+id/cvQuickBits"
+        app:layout_constraintEnd_toStartOf="@+id/cvQuickBits"
         app:layout_constraintStart_toEndOf="@+id/cvHome"
-        app:layout_constraintTop_toTopOf="@+id/cvSearch">
+        app:layout_constraintTop_toTopOf="@+id/cvQuickBits">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

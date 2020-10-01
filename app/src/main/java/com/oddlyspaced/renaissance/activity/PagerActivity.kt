@@ -15,6 +15,7 @@ import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.PagerAdapter
 import com.oddlyspaced.renaissance.fragment.EmptyFragment
 import com.oddlyspaced.renaissance.fragment.GlobalFeedFragment
+import com.oddlyspaced.renaissance.fragment.QuickBitsFeedFragment
 import com.oddlyspaced.renaissance.fragment.UserFeedFragment
 import kotlinx.android.synthetic.main.activity_pager.*
 import kotlinx.android.synthetic.main.layout_bottom_bar.*
@@ -28,11 +29,11 @@ class PagerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pager)
-        listCardBar = arrayListOf(include.cvHome, include.cvGlobal)
-        listIconBar = arrayListOf(include.imgHome, include.imgGlobal)
+        listCardBar = arrayListOf(include.cvHome, include.cvGlobal, include.cvQuickBits)
+        listIconBar = arrayListOf(include.imgHome, include.imgGlobal, include.imgQuickBits)
 
-        val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), EmptyFragment())
-        val titles = arrayOf("For You", "Global", "Empty")
+        val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), QuickBitsFeedFragment(), EmptyFragment())
+        val titles = arrayOf("For You", "Global", "Quick Bits", "Empty")
         val adapter = PagerAdapter(this, list)
         viewPagerMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {

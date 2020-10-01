@@ -29,4 +29,7 @@ interface ApiInterface {
     @GET("category/by/post/{id}/" + Global.SECURE_KEY + "/" + Global.ITEM_PURCHASE_CODE + "/")
     fun categoryOfPost(@Path("id") id: Int): Call<List<Category>>
 
+    @GET("image/all/{page}/id/{language}/" + Global.SECURE_KEY + "/" + Global.ITEM_PURCHASE_CODE + "/")
+    fun quickBitsByPage(@Path("page") page: Int, @Path("language") language: String): Call<List<Post>>
+
 }
