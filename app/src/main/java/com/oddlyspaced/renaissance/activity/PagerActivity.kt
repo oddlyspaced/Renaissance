@@ -1,7 +1,13 @@
 package com.oddlyspaced.renaissance.activity
 
+import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
+import androidx.annotation.ColorRes
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
@@ -12,11 +18,18 @@ import com.oddlyspaced.renaissance.fragment.GlobalFeedFragment
 import com.oddlyspaced.renaissance.fragment.UserFeedFragment
 import kotlinx.android.synthetic.main.activity_pager.*
 import kotlinx.android.synthetic.main.layout_bottom_bar.*
+import kotlinx.android.synthetic.main.layout_bottom_bar.view.*
 
 class PagerActivity : AppCompatActivity() {
+
+    private lateinit var listCardBar: ArrayList<CardView>
+    private lateinit var listIconBar: ArrayList<ImageView>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pager)
+        listCardBar = arrayListOf(include.cvHome, include.cvGlobal)
+        listIconBar = arrayListOf(include.imgHome, include.imgGlobal)
 
         val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), EmptyFragment())
         val titles = arrayOf("For You", "Global", "Empty")
@@ -27,5 +40,30 @@ class PagerActivity : AppCompatActivity() {
             }
         })
         viewPagerMain.adapter = adapter
+        setupBottomBar()
+    }
+
+    private fun setupBottomBar() {
+        for (i in 0 until listCardBar.size) {
+            listCardBar[i].setOnClickListener {
+                viewPagerMain.setCurrentItem(i, true)
+                resetBottomBarColor()
+                listCardBar[i].setCardBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorCardLight))
+                listIconBar[i].setTint(R.color.colorText)
+            }
+        }
+        listCardBar[0].setCardBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorCardLight))
+        listIconBar[0].setTint(R.color.colorText)
+    }
+
+    private fun resetBottomBarColor() {
+        for (i in 0 until listCardBar.size) {
+            listCardBar[i].setCardBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+            listIconBar[i].setTint(R.color.colorTextLight)
+        }
+    }
+
+    private fun ImageView.setTint(@ColorRes colorRes: Int) {
+        ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)))
     }
 }
