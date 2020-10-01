@@ -15,7 +15,7 @@ import com.oddlyspaced.renaissance.api.ApiInterface
 import com.oddlyspaced.renaissance.modal.Category
 import com.oddlyspaced.renaissance.modal.Post
 import com.oddlyspaced.renaissance.util.SharedPreferenceManager
-import kotlinx.android.synthetic.main.fragment_user_feed.*
+import kotlinx.android.synthetic.main.fragment_feed.*
 import retrofit2.Call
 import retrofit2.Response
 
@@ -39,7 +39,7 @@ class UserFeedFragment: Fragment() {
     private var isLoading = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_user_feed, container, false)
+        return inflater.inflate(R.layout.fragment_feed, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,17 +51,17 @@ class UserFeedFragment: Fragment() {
             pages.add(0)
         }
 
-        rvUserFeed.layoutManager = LinearLayoutManager(context!!)
-        rvUserFeed.setHasFixedSize(true)
+        rvFeed.layoutManager = LinearLayoutManager(context!!)
+        rvFeed.setHasFixedSize(true)
         postAdapter = PostAdapter(posts, PostAdapter.TYPE_MIXED)
-        rvUserFeed.adapter = postAdapter
+        rvFeed.adapter = postAdapter
 
         categories.forEach {
             fetchFeed(it)
         }
 
-        rvUserFeed.setOnScrollChangeListener { _, _, _, _, _ ->
-            val current = (rvUserFeed.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+        rvFeed.setOnScrollChangeListener { _, _, _, _, _ ->
+            val current = (rvFeed.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
             if (current > posts.size - 10) {
                 if (!isLoading) {
                     isLoading = true
@@ -113,7 +113,7 @@ class UserFeedFragment: Fragment() {
         postAdapter.notifyDataSetChanged()
         isLoading = false
         pbLoading.isVisible = false
-        rvUserFeed.isVisible = true
+        rvFeed.isVisible = true
         cvLoading.isVisible = false
     }
 
