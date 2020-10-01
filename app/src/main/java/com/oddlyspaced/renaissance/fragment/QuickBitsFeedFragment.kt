@@ -79,6 +79,7 @@ class QuickBitsFeedFragment: Fragment() {
                     pbLoading.isVisible = false
                     rvFeed.isVisible = true
                     cvLoading.isVisible = false
+                    isLoading = false
                 }
             }
 
