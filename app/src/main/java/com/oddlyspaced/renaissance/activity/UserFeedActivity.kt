@@ -110,12 +110,12 @@ class UserFeedActivity : AppCompatActivity() {
             }
         }
         Log.e(tag, "HMMMM")
-
-        while (stagingPosts.isNotEmpty()) {
-            val randomPost = stagingPosts.random()
-            posts.add(randomPost)
-            stagingPosts.remove(randomPost)
+        stagingPosts.shuffle()
+        stagingPosts.sortBy {
+            it.created
         }
+        posts.addAll(stagingPosts)
+        stagingPosts.clear()
         postAdapter.notifyDataSetChanged()
         isLoading = false
         pbLoading.isVisible = false
