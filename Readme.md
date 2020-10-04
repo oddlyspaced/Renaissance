@@ -29,3 +29,6 @@ The (existing) app is a template based product derived from [Virmana's Ultimate 
 * Glide
 * Retrofit
 * GSON
+
+## Design Inspiration
+[Newbie News App concept by Andrii Chutilov](https://www.behance.net/gallery/101473509/Newbie-news-app)
