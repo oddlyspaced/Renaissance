@@ -22,9 +22,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:visibility="gone"
         app:cardCornerRadius="999dp"
         app:cardElevation="0dp"
-        android:foreground="?android:attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cvSaved"
@@ -41,12 +42,12 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                app:tint="@color/colorTextLight"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_user" />
+                app:srcCompat="@drawable/ic_user"
+                app:tint="@color/colorTextLight" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -56,9 +57,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:visibility="gone"
         app:cardCornerRadius="999dp"
         app:cardElevation="0dp"
-        android:foreground="?android:attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="@+id/cvUser"
         app:layout_constraintEnd_toStartOf="@+id/cvUser"
         app:layout_constraintStart_toEndOf="@+id/cvQuickBits"
@@ -75,13 +77,13 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                app:tint="@color/colorTextLight"
-
                 app:layout_constraintBottom_toBottomOf="parent"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_save" />
+                app:srcCompat="@drawable/ic_save"
+                app:tint="@color/colorTextLight" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -125,10 +127,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="999dp"
         app:cardElevation="0dp"
-        android:foreground="?android:attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="@+id/cvQuickBits"
         app:layout_constraintEnd_toStartOf="@+id/cvQuickBits"
         app:layout_constraintStart_toEndOf="@+id/cvHome"

@@ -30,7 +30,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/txPageTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txPageTitle"
-        app:srcCompat="@drawable/ic_search" />
+        app:srcCompat="@drawable/ic_search"
+        android:visibility="gone"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerMain"
@@ -44,7 +45,7 @@
     <include
         android:id="@+id/include"
         layout="@layout/layout_bottom_bar"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
