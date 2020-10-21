@@ -29,7 +29,7 @@ class PagerActivity : AppCompatActivity() {
         listCardBar = arrayListOf(include.cvHome, include.cvGlobal, include.cvQuickBits, include.cvSaved)
         listIconBar = arrayListOf(include.imgHome, include.imgGlobal, include.imgQuickBits, include.imgSaved)
 
-        val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), QuickBitsFeedFragment(), SavedFeedFragment())
+        val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), QuickBitsFeedFragment()/*, SavedFeedFragment()*/)
         val titles = arrayOf("For You", "Global", "Quick Bits", "Saved")
         val adapter = PagerAdapter(this, list)
         viewPagerMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

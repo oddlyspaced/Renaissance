@@ -58,7 +58,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:foreground="?android:attr/selectableItemBackground"
-        android:visibility="visible"
+        android:visibility="gone"
         app:cardCornerRadius="999dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/cvUser"
