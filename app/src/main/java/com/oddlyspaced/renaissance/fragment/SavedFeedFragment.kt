@@ -15,16 +15,18 @@ import com.oddlyspaced.renaissance.adapter.PostAdapter
 import com.oddlyspaced.renaissance.api.ApiClient
 import com.oddlyspaced.renaissance.api.ApiInterface
 import com.oddlyspaced.renaissance.modal.Post
+import com.oddlyspaced.renaissance.util.SavedPostDatabaseManager
 import com.oddlyspaced.renaissance.util.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_feed.*
 import retrofit2.Call
 import retrofit2.Response
 
-class SavedFeedFragment: Fragment() {
+class SavedFeedFragment : Fragment() {
 
     private val TAG = "SavedFeedActivity"
 
     private val sharedPreferenceManager by lazy { SharedPreferenceManager(context!!) }
+    private val savedPostDatabaseManager by lazy { SavedPostDatabaseManager(context!!) }
     private lateinit var language: String
 
     private val client = ApiClient.getApiClient()
@@ -70,22 +72,12 @@ class SavedFeedFragment: Fragment() {
     }
 
     private fun loadSaved() {
-        apiInterface.postById(5978).enqueue(object : retrofit2.Callback<Post> {
-            override fun onResponse(call: Call<Post>, response: Response<Post>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { posts.add(it) }
-                }
-                postAdapter.notifyDataSetChanged()
-                pbLoading.isVisible = false
-                rvFeed.isVisible = true
-                cvLoading.isVisible = false
-                isLoading = false
-            }
-
-            override fun onFailure(call: Call<Post>, t: Throwable) {
-                Toast.makeText(context, "Failed to load posts!", Toast.LENGTH_LONG).show()
-            }
-        })
+        posts.addAll(savedPostDatabaseManager.getSavedPostsList())
+        postAdapter.notifyDataSetChanged()
+        pbLoading.isVisible = false
+        rvFeed.isVisible = true
+        cvLoading.isVisible = false
+        isLoading = false
     }
 
 }
