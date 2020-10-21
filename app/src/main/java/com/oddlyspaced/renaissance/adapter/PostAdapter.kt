@@ -8,10 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.modal.Post
+import com.oddlyspaced.renaissance.util.SavedPostDatabaseManager
 import com.oddlyspaced.renaissance.util.SharedPreferenceManager
 import kotlinx.android.synthetic.main.item_post.view.imgPost
 import kotlinx.android.synthetic.main.item_post.view.txPostExtra
@@ -19,8 +21,7 @@ import kotlinx.android.synthetic.main.item_post.view.txPostTime
 import kotlinx.android.synthetic.main.item_post.view.txPostTitle
 import kotlinx.android.synthetic.main.layout_post_expanded.view.*
 
-class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val TYPE_MIXED = 1
@@ -31,6 +32,7 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int) 
     }
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
+    private lateinit var savedPostDatabaseManager: SavedPostDatabaseManager
 
     class ViewHolderCompact(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.txPostTitle
@@ -47,6 +49,8 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int) 
         val content: TextView = itemView.txPostContent
         val cardSource: CardView = itemView.cvPostSource
         val sourceText: TextView = itemView.txPostSource
+        val cardSaved: CardView = itemView.cvSave
+        val imageSaved: ImageView = itemView.imgSave
     }
 
     class ViewHolderQuick(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -58,6 +62,7 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int) 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         sharedPreferenceManager = SharedPreferenceManager(parent.context)
+        savedPostDatabaseManager = SavedPostDatabaseManager(parent.context)
         return when (feedType) {
             TYPE_QUICK -> ViewHolderQuick(LayoutInflater.from(parent.context).inflate(R.layout.item_quick_bit, parent, false))
             else -> return when (sharedPreferenceManager.getLayoutStyle()) {
@@ -120,6 +125,16 @@ class PostAdapter(private val list: ArrayList<Post>, private val feedType: Int) 
                 holder.sourceText.text = item.anchor_text
                 holder.cardSource.setOnClickListener {
                     Toast.makeText(hol.itemView.context, "Load webview here", Toast.LENGTH_SHORT).show()
+                }
+                holder.imageSaved.setImageDrawable(ContextCompat.getDrawable(hol.itemView.context,  if (savedPostDatabaseManager.checkPostSaved(item)) R.drawable.ic_saved else R.drawable.ic_save))
+                holder.cardSaved.setOnClickListener {
+                    if (savedPostDatabaseManager.checkPostSaved(item)) {
+                        savedPostDatabaseManager.deleteSavedPost(item)
+                    }
+                    else {
+                        savedPostDatabaseManager.addSavedPost(item)
+                    }
+                    holder.imageSaved.setImageDrawable(ContextCompat.getDrawable(hol.itemView.context,  if (savedPostDatabaseManager.checkPostSaved(item)) R.drawable.ic_saved else R.drawable.ic_save))
                 }
             }
         }
