@@ -13,10 +13,7 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.oddlyspaced.renaissance.R
 import com.oddlyspaced.renaissance.adapter.PagerAdapter
-import com.oddlyspaced.renaissance.fragment.EmptyFragment
-import com.oddlyspaced.renaissance.fragment.GlobalFeedFragment
-import com.oddlyspaced.renaissance.fragment.QuickBitsFeedFragment
-import com.oddlyspaced.renaissance.fragment.UserFeedFragment
+import com.oddlyspaced.renaissance.fragment.*
 import kotlinx.android.synthetic.main.activity_pager.*
 import kotlinx.android.synthetic.main.layout_bottom_bar.*
 import kotlinx.android.synthetic.main.layout_bottom_bar.view.*
@@ -29,11 +26,11 @@ class PagerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pager)
-        listCardBar = arrayListOf(include.cvHome, include.cvGlobal, include.cvQuickBits)
-        listIconBar = arrayListOf(include.imgHome, include.imgGlobal, include.imgQuickBits)
+        listCardBar = arrayListOf(include.cvHome, include.cvGlobal, include.cvQuickBits, include.cvSaved)
+        listIconBar = arrayListOf(include.imgHome, include.imgGlobal, include.imgQuickBits, include.imgSaved)
 
-        val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), QuickBitsFeedFragment())
-        val titles = arrayOf("For You", "Global", "Quick Bits")
+        val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), QuickBitsFeedFragment(), SavedFeedFragment())
+        val titles = arrayOf("For You", "Global", "Quick Bits", "Saved")
         val adapter = PagerAdapter(this, list)
         viewPagerMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
