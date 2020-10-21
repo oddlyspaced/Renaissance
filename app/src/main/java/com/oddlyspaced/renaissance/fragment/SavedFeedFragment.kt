@@ -26,13 +26,9 @@ class SavedFeedFragment : Fragment() {
     private val TAG = "SavedFeedActivity"
 
     private val sharedPreferenceManager by lazy { SharedPreferenceManager(context!!) }
-    private val savedPostDatabaseManager by lazy { SavedPostDatabaseManager(context!!) }
+    private lateinit var savedPostDatabaseManager: SavedPostDatabaseManager
     private lateinit var language: String
 
-    private val client = ApiClient.getApiClient()
-    private val apiInterface = client.create(ApiInterface::class.java)
-
-    private val posts = arrayListOf<Post>()
     private lateinit var postAdapter: PostAdapter
 
     private var isLoading = true
@@ -44,10 +40,11 @@ class SavedFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         language = sharedPreferenceManager.getLanguage().toString()
+        savedPostDatabaseManager = SavedPostDatabaseManager(context!!)
 
         rvFeed.layoutManager = LinearLayoutManager(context)
         rvFeed.setHasFixedSize(true)
-        postAdapter = PostAdapter(posts, PostAdapter.TYPE_SINGLE)
+        postAdapter = PostAdapter(savedPostDatabaseManager.savedPosts, PostAdapter.TYPE_SINGLE)
         rvFeed.adapter = postAdapter
 
         if (sharedPreferenceManager.getLayoutStyle() == PostAdapter.LAYOUT_EXPANDED) {
@@ -55,24 +52,15 @@ class SavedFeedFragment : Fragment() {
             snapHelper.attachToRecyclerView(rvFeed)
         }
 
-        /*rvFeed.setOnScrollChangeListener { _, _, _, _, _ ->
-            val current = (rvFeed.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-            if (current > posts.size - 10) {
-                if (!isLoading) {
-                    isLoading = true
-                    loadSaved()
-                }
-            }
-            if (current > posts.size - 3) {
-                cvLoading.isVisible = true
-            }
-        }*/
+    }
 
+    override fun onResume() {
+        super.onResume()
+        savedPostDatabaseManager = SavedPostDatabaseManager(context!!)
         loadSaved()
     }
 
     private fun loadSaved() {
-        posts.addAll(savedPostDatabaseManager.getSavedPostsList())
         postAdapter.notifyDataSetChanged()
         pbLoading.isVisible = false
         rvFeed.isVisible = true
