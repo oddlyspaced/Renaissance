@@ -16,7 +16,7 @@ class SavedPostDatabaseManager(context: Context) {
     private val editor by lazy { sharedPreferences.edit() }
     private val gson = Gson()
 
-    private val savedPosts by lazy {
+    val savedPosts by lazy {
         val json = sharedPreferences.getString(KEY_SAVED, null)
         val type = object : TypeToken<ArrayList<Post>>(){}.type
         gson.fromJson(json, type)?: arrayListOf<Post>()
@@ -38,10 +38,6 @@ class SavedPostDatabaseManager(context: Context) {
 
     fun checkPostSaved(post: Post): Boolean {
         return savedPosts.contains(post)
-    }
-
-    fun getSavedPostsList(): ArrayList<Post> {
-        return savedPosts
     }
 
 }
