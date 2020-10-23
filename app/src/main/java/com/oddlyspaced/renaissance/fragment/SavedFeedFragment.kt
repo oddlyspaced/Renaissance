@@ -27,7 +27,6 @@ class SavedFeedFragment : Fragment() {
 
     private val sharedPreferenceManager by lazy { SharedPreferenceManager(context!!) }
     private lateinit var savedPostDatabaseManager: SavedPostDatabaseManager
-    private lateinit var language: String
 
     private lateinit var postAdapter: PostAdapter
 
@@ -39,24 +38,23 @@ class SavedFeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        language = sharedPreferenceManager.getLanguage().toString()
-        savedPostDatabaseManager = SavedPostDatabaseManager(context!!)
-
-        rvFeed.layoutManager = LinearLayoutManager(context)
-        rvFeed.setHasFixedSize(true)
-        postAdapter = PostAdapter(savedPostDatabaseManager.savedPosts, PostAdapter.TYPE_SINGLE)
-        rvFeed.adapter = postAdapter
 
         if (sharedPreferenceManager.getLayoutStyle() == PostAdapter.LAYOUT_EXPANDED) {
             val snapHelper = PagerSnapHelper()
             snapHelper.attachToRecyclerView(rvFeed)
         }
-
+        onResume()
     }
 
     override fun onResume() {
         super.onResume()
         savedPostDatabaseManager = SavedPostDatabaseManager(context!!)
+
+        rvFeed.layoutManager = LinearLayoutManager(context)
+        rvFeed.setHasFixedSize(true)
+        postAdapter = PostAdapter(ArrayList(savedPostDatabaseManager.savedPosts.reversed()), PostAdapter.TYPE_SINGLE)
+        rvFeed.adapter = postAdapter
+
         loadSaved()
     }
 

@@ -26,11 +26,11 @@ class PagerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pager)
-        listCardBar = arrayListOf(include.cvHome, include.cvGlobal, include.cvQuickBits, include.cvUser)
-        listIconBar = arrayListOf(include.imgHome, include.imgGlobal, include.imgQuickBits, include.imgUser)
+        listCardBar = arrayListOf(include.cvHome, include.cvGlobal, include.cvQuickBits, include.cvSaved, include.cvUser)
+        listIconBar = arrayListOf(include.imgHome, include.imgGlobal, include.imgQuickBits, include.imgSaved, include.imgUser)
 
-        val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), QuickBitsFeedFragment(), ProfileFragment())
-        val titles = arrayOf("For You", "Global", "Quick Bits", "")
+        val list = arrayListOf(UserFeedFragment(), GlobalFeedFragment(), QuickBitsFeedFragment(), SavedFeedFragment(), ProfileFragment())
+        val titles = arrayOf("For You", "Global", "Quick Bits", "Saved", "")
         val adapter = PagerAdapter(this, list)
         viewPagerMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
